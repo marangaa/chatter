@@ -83,6 +83,16 @@ func handleConnection(client *Client) {
             broadcast <- fmt.Sprintf("%s has left the chat\n", client.name)
             return
         }
+
+		// check for commands
+		if message == "/exit\n" {
+			fmt.Printf("%s left the chat\n", client.name)
+			mutex.Lock()
+			delete(clients, client)
+			mutex.Unlock()
+			return
+		}
+
         broadcast <- fmt.Sprintf("%s: %s", client.name, message)
     }
 }
